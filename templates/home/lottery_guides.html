@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>README</title>
+</head>
+<body><center><h1>抽奖程序使用说明</h1></center>
+<h1 id='目录'>目录</h1>
+<ul>
+<li><a href='#1-部署安装'>部署安装</a></li>
+<li><a href='#2-使用流程'>使用流程</a></li>
+<li><a href='#3-其他说明'>其他说明</a></li>
+
+</ul>
+<h1 id='1-部署安装'>1 部署安装</h1>
+<ul>
+<li><p>Saas部署</p>
+<ul>
+<li><code>python manage.py migrate</code></li>
+<li><code>python manage.py init</code></li>
+
+</ul>
+</li>
+<li><p>windows系统</p>
+<ul>
+<li>双击installer.bat安装依赖包</li>
+<li>双击run.bat启动抽奖程序</li>
+
+</ul>
+</li>
+<li><p>mac/linux系统</p>
+<ul>
+<li><p>安装python 3.6.8 </p>
+<ul>
+<li>mac: <code>brew install python3.6.8</code>  </li>
+<li>linux(ubuntu): <code>apt install python3.6.8</code></li>
+
+</ul>
+</li>
+<li><p>安装pip</p>
+<ul>
+<li>mac: 完成第一步后自带pip</li>
+<li>linux(ubuntu): <code>apt install python3.6-pip</code> </li>
+
+</ul>
+</li>
+<li><p>安装依赖包</p>
+<ul>
+<li>命令行运行<code>./install.sh</code></li>
+
+</ul>
+</li>
+<li><p>启动程序</p>
+<ul>
+<li>命令行运行<code>./run.sh</code></li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<h1 id='2-使用流程'>2 使用流程</h1>
+<h3 id='21-导入抽奖人员及其头像'>2.1 导入抽奖人员及其头像</h3>
+<ul>
+<li><p>下载模版</p>
+<ul>
+<li><p>导入格式：excel 和 json</p>
+</li>
+<li><p>表格说明：</p>
+<ul>
+<li>英文名和中文名，且英文名<code>rtx</code>要唯一</li>
+<li>部门名称</li>
+<li>是否请假：在创建奖项可以选择是否请假的人员可以参与抽奖</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><p>上传抽奖人员名单</p>
+<ul>
+<li>上传抽奖人员名单后可以关联到奖项，在指定的人员名单中选取中奖者</li>
+
+</ul>
+</li>
+<li><p>导入抽奖者头像</p>
+<ul>
+<li>抽奖者的头像命名为<code>{英文名}.png</code></li>
+<li>将头像文件夹放在<code>static/avatars/{portrait_packet_name}</code>, 其中<code>portrait_packet_name</code>是在配置中加入的该文件夹的名称，默认值<code>head_portrait</code></li>
+<li>如果上述路径中没有候选者的头像，则会使用<code>static/avators</code>文件夹下的<code>default.png</code>默认头像</li>
+
+</ul>
+</li>
+
+</ul>
+<h3 id='22-添加奖项'>2.2 添加奖项</h3>
+<ul>
+<li><p>输入一些奖项的基本配置，并上传图片</p>
+</li>
+<li><p>部分奖项配置说明</p>
+<ul>
+<li>状态：只有激活的奖项才可以进行抽奖</li>
+<li>是否现场输入商品：勾选之后，奖项的配置(奖项配置、奖品、中奖人数)会以文本框的形式渲染，可以输入修改配置</li>
+<li>是否现场领奖：勾选之后，若中奖者不在现场，则可以重新抽奖，会将刚才不在现场的中奖者的中奖记录标为无效</li>
+<li>报备的人是否可以抽奖：勾选之后，请假的人员会作为抽奖的样本</li>
+<li>相关奖项：若奖项A与奖项B关联，则奖项A的中奖者会作为奖项B的抽奖样本</li>
+<li>中奖人数：要符合条件<code>总中奖人数 = 名单1的中奖人数 + 名单2中奖人数</code></li>
+
+</ul>
+</li>
+
+</ul>
+<h3 id='23-进行抽奖'>2.3 进行抽奖</h3>
+<ul>
+<li>选择想要抽奖的奖项</li>
+<li>点击开始按钮，参加抽奖人员的头像会有飞出的动画</li>
+<li>点击停止按钮会出现中奖结果的界面</li>
+<li>若设置了<code>必须现场领奖</code>则可以点击没在场的</li>
+
+</ul>
+<h3 id='24-看查导出-中奖者名单'>2.4 看查/导出 中奖者名单</h3>
+<ul>
+<li>可以看查中奖人员名单</li>
+<li>可以将中奖人员名单导出为excel表格</li>
+
+</ul>
+<h1 id='3-其他说明'>3 其他说明</h1>
+<h3 id='31-抽奖逻辑流程图'>3.1 抽奖逻辑流程图</h3>
+<p><img src="./static/guide_imgs/lottery_logic.png" referrerpolicy="no-referrer" alt="抽奖逻辑流程图"></p>
+<h3 id='32-配置项说明'>3.2 配置项说明</h3>
+<p><img src="./static/guide_imgs/config.png" referrerpolicy="no-referrer" alt="配置项"></p>
+<ul>
+<li><p>配置抽奖奖项的标题颜色</p>
+<ul>
+<li>找到conf_name为award_p_color的配置项，并修改conf_value（单位：十六进制颜色值)
+<img src="./static/guide_imgs/award_p_color.png" referrerpolicy="no-referrer" alt="修改奖项名称文字颜色"></li>
+
+</ul>
+</li>
+<li><p>配置中奖结果的动态播放效果(中奖人数过多)</p>
+<ul>
+<li>找到conf_name为pageturning的配置项（翻页方式参数：上下翻页（vertical）、左右翻页（horizontal）），并修改值为horizontal</li>
+<li>找到conf_name为is_play的配置项（开启轮播开关：开启，默认（true）、关闭（false）），并修改值为false</li>
+<li>找到conf_name为effect的配置项（轮播效果：推动效果（default）、不断重复轮播的渐变效果（fade）、立方体效果（cube）、封面流效果（coverflow）、翻转效果（flip）、卡片效果（cards）、系统默认原始风格（空字符串 或 null）），并修改值为default</li>
+<li>找到conf_name为is_end_play的配置项（到最后一页停止轮播：默认轮播到最后一页停止（true）、不断从头开始轮播（false）），并修改值为true</li>
+<li>参数time_interval，用于设置翻页间隔时长，中奖结果轮播，每页显示的间隔时间，默认1秒（单位：秒）</li>
+<li>参数time_presentation，用于设置翻页停留时长，中奖结果轮播，每页呈现的停留时长，默认1秒（单位：秒）
+<img src="./static/guide_imgs/award_page.png" referrerpolicy="no-referrer" alt="轮播效果"></li>
+
+</ul>
+</li>
+<li><p>配置中奖结果显示人员姓名和头像模式</p>
+<ul>
+<li><p>此模式用于48人以内（包括48）的抽奖人员则以中奖者头像展示，超过48人的奖项，中奖结果则以纯人名作为展示样式。</p>
+</li>
+<li><p>注意事项</p>
+<ul>
+<li>头像尺寸建议不要过大，建议大小为150，系统内置的default.png大小和像素如图</li>
+<li>优先将抽奖候选人员头像放置到 <code>avatars/head_portrait</code> 目录下，然后导入制作的抽奖人员名单。如果先导入抽奖人员名单 或 抽奖人员对应的头像不存在，中奖结果则使用系统默认的default.png作为人员头像。</li>
+
+</ul>
+</li>
+<li><p>必配参数</p>
+<ul>
+<li>找到conf_name为head_portrait_style的配置项，并修改conf_value，值为：null</li>
+<li>找到conf_name为icon_package的配置项，并修改conf_value，值为：head_portrait</li>
+<li>找到conf_name为effect的配置项，并修改conf_value，值为：null</li>
+
+</ul>
+</li>
+<li><p>可选参数</p>
+<ul>
+<li>参数winner_nums，用于超过48人的奖项，设置每页最大展示的人数，默认48（正整数）
+<img src="./static/guide_imgs/show_avatars.png" referrerpolicy="no-referrer" alt="展示头像">
+<img src="./static/guide_imgs/show_name.png" referrerpolicy="no-referrer" alt="展示名字"></li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><p>配置中奖结果为小方块模式，并设置字体颜色、背景颜色和字体</p>
+<ul>
+<li>找到conf_name为head_portrait_style的配置项，并修改conf_value，值为：non_head_portrait，表示：只有中奖者中英文姓名</li>
+<li>找到conf_name为winner_backgroud_color的配置项（中奖结果方块背景色,单位：十六进制颜色值），并修改conf_value，此处测试值为 #000000</li>
+<li>找到conf_name为winner_p_color的配置项（中奖结果名单的字体色，单位：十六进制颜色值），并修改conf_value，此处测试值为 #ffffff</li>
+<li>找到conf_name为font_family的配置项（只支持：字体FZZZHONGJW、为空则使用系统默认字体），并修改conf_value，此处测试值为 FZZZHONGJW</li>
+
+</ul>
+</li>
+<li><p>抽奖界面风格配置</p>
+<ul>
+<li>找到conf_name为award_style的配置项（抽奖的奖项展示风格支持：水滴风格（0）、稳赢风格（1）、玩偶风格（2）、星空风格（3）、带对应奖项logo图片风格（4））</li>
+
+</ul>
+</li>
+<li><p>配置页面底部和技术支持元素内容</p>
+<ul>
+<li>找到conf_name为author_name的配置项（页面底部和技术支持元素内容，默认为空），并修改conf_value
+<img src="./static/guide_imgs/author_name.png" referrerpolicy="no-referrer" alt="技术支持"></li>
+
+</ul>
+</li>
+<li><p>配置是否需要顶部的图标</p>
+<ul>
+<li>找到conf_name为need_top的配置项,（是否需要顶部中间的图标：需要（true）、不需要（false）），此处设置为true</li>
+<li>找到conf_name为need_top_left的配置项（是否需要顶部左边的图标：需要（true）、不需要（false）），此处设置为true
+<img src="./static/guide_imgs/top_left_icon.png" referrerpolicy="no-referrer" alt="图标">x</li>
+
+</ul>
+</li>
+
+</ul>
+<h3 id='33-背景图片的更改'>3.3 背景图片的更改</h3>
+<ul>
+<li><p>在<code>static/images/</code>文件夹下创建<code>bg{num}</code>文件夹，其中<code>num</code>为版本号且全局唯一，并在配置表中<code>award_style</code>配置选项中填写唯一的版本号。</p>
+</li>
+<li><p>在<code>bg{num}</code>文件夹下的图片说明如下</p>
+<ul>
+<li><code>packet_bg.jpg</code>  背景图片</li>
+<li><code>top.png</code> 顶部装饰小图标</li>
+<li><code>end_bg.jpg</code> 结束背景，也即抽奖时和抽奖后展示中奖者的背景图</li>
+<li><code>lucky.png</code> 幸运大抽奖的标题</li>
+<li><code>start.png</code> 开始按钮</li>
+<li><code>stop.png</code> 结束按钮</li>
+
+</ul>
+</li>
+
+</ul>
+</body>
+</html>

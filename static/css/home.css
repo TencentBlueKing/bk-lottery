@@ -1,0 +1,26 @@
+/* stylelint-disable */
+.tile img.tile-image.big-illustration {
+  border-radius: 6px;
+}
+
+.tile p {
+  margin-bottom: 10px;
+}
+
+.tile img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -moz-crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+.tile .tile-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile .sub-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,42 @@
+/* stylelint-disable */
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  cursor: url("../images/pointer1.cur"), default;
+  font-family: "Microsoft Yahei";
+  padding-top: 70px;
+}
+
+button,
+a {
+  cursor: url("../images/pointer2.cur"), pointer !important;
+}
+
+li {
+  list-style: none;
+}
+
+.navbar {
+  border-radius: 0;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+#rtxImportModal {
+  padding-top: 200px;
+}
+
+.bk-bg {
+  float: right;
+  width: 120px;
+  height: 50px;
+}
+
+.container {
+  height: 100%;
+}

@@ -1,0 +1,181 @@
+<%inherit file="/base.html"/>
+
+<%block name="head">
+<title>${DEPARTMENT}年会</title>
+${parent.head()}
+<link href="${STATIC_URL}css/award.css?v=${STATIC_VERSION}" rel="stylesheet">
+<link href="${STATIC_URL}css/spin.css?v=${STATIC_VERSION}" rel="stylesheet">
+<script src="${STATIC_URL}js/spin.min.js?v=${STATIC_VERSION}"></script>
+<script src="${STATIC_URL}js/roulette.min.js?v=${STATIC_VERSION}"></script>
+<script>
+    var award_id = ${award.id};
+    var award_number = ${award.number};
+    var award_times = ${award.times};
+    var award_takeinscene = '${award.take_in_scene}';
+    var need_input = '${award.need_input}' === 'True';
+    var isChangeNumber = ${'true' if award.change_win_rate_inplace else 'false'};
+    var award_name = '${award.name};'
+    var winner_nums = parseInt("${version_config.get('winner_nums')}");
+    var winner_line_nums = parseInt("${version_config.get('winner_line_nums')}");
+    var time_interval = parseFloat("${version_config.get('time_interval')}");
+    var time_presentation = parseFloat("${version_config.get('time_presentation')}");
+    var winner_play_style = "${version_config.get('winner_play_style')}";
+    var head_portrait_style = '${version_config.get("head_portrait_style", "non_head_portrait")}';
+    var pageturning = '${version_config.get("pageturning", "vertical")}';
+    var is_play = '${version_config.get("is_play", "true")}';
+    var effect = '${version_config.get("effect", "default")}';
+    var is_end_play = '${version_config.get("is_end_play")}';
+    var font_family = '${version_config.get("font_family")}';
+    var award_style = "${version_config.get('award_style')}";
+    var version_config = ${version_config};
+</script>
+</%block>
+
+<%block name="navbar"></%block>
+
+<%block name="content">
+
+<div class="loading" style="display: none">
+    <div class="loading-img">
+        <img src="${STATIC_URL}images/loading.png" class="loading-pic">
+        <span class="loader"></span>
+    </div>
+</div>
+
+<div class="top-div">
+    %if "true" == version_config.get("need_top", "true"):
+    <img src="${STATIC_URL}images/bg${version}/top.png" onerror="this.style.display='none'" class="top-img"/>
+    %endif
+    %if "true" == version_config.get("need_top_left", "true"):
+    <span class="top-image">
+        <img src="${STATIC_URL}images/bg${version}/top.png" onerror="this.style.display='none'" class="top-left-img"/>
+    </span>
+    %endif
+
+    % if award.need_input:
+    <div id="prize_bg" class="input">
+        <input type="text" class="award-prize award-style" name="prize" data-award="${award.id}" id="award-input" autocomplete="off"
+               value="${award.name} ${award.prize} (${award.number} 份)"
+               style="color: ${version_config.get('award_p_color', '#000')}; font-family:${version_config.get('font_family')}"/>
+    </div>
+    % else:
+    <span class="top-span" style="color: ${version_config.get('award_p_color', '#000')}; font-family:${version_config.get('font_family')}">
+        <span class="title">${award.name}${" " + award.prize}</span>
+        <span>(${award.number} 份)</span>
+    </span>
+    % endif
+</div>
+
+<audio src="${STATIC_URL}mp3/${version_config.get('bg_music', 'joy.mp3')}?v=${STATIC_VERSION}" paused="true" hidden="true" loop="true" preload="auto"
+       id="audio_play"></audio>
+<img src="${STATIC_URL}images/bg${version}/packet_bg.jpg" class="bg" id="background-img"/>
+<img src="${STATIC_URL}images/bg${version}/end_bg.jpg" class="bg" style="display: none;" id="background-img-end"/>
+
+<div class="modal fade" id="lotteryModal" tabindex="-1" role="dialog" aria-labelledby="lotteryModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal1-content">
+            <div class="modal-body" style="padding: 0">
+{#                <img id="background" src="${STATIC_URL}images/bg${version}/animation_bg.jpg" style="display: none;"/>#}
+                <canvas id="space">Internet Explorer 8 Not Supported</canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="wheelModal" tabindex="-1" role="dialog" aria-labelledby="wheelModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <canvas id="wheel">Internet Explorer 8 Not Supported</canvas>
+            </div>
+            ##
+            <div class="modal-footer">
+                ##
+                <div class="modal-button">
+                    ##
+                    <button class="btn btn-inverse btn-modal" id="wheelButton"><span class="glyphicon glyphicon-play"
+                                                                                     aria-hidden="true"></span></button>
+                    ##
+                </div>
+                ##
+            </div>
+        </div>
+    </div>
+</div>
+<div class="award-container">
+    <div>
+        % if version_config.get("lucky_top"):
+        <img src="${STATIC_URL}images/bg${version}/lucky.png" onerror="this.style.display='none'" id="lucky-title"
+             style="top: ${version_config['lucky_top']}">
+        % else:
+        <img src="${STATIC_URL}images/bg${version}/lucky.png" onerror="this.style.display='none'" id="lucky-title">
+        % endif
+        <img src="${STATIC_URL}images/bg${version_config.get('award_style')}/bg_line.png"
+             onerror="this.style.display='none'" class="award-bg-line" id="bg-line">
+
+        <img src="${version_config.get('award_image')}" onerror="this.style.display='none'" class="award-bg"
+             id="award-img" style="display:${version_config.get('need_award_image', 'block')};">
+
+        <span style="color: ${version_config.get('p_color', 'red')};font-family: ${version_config.get('font_family')}" class="bottom-span">${version_config['author_name']}</span>
+    </div>
+
+    <div class="winners-boxs" style="max-width: ${max_width}px">
+        % for index in range(award.number):
+        <div class="winner-box" style="display: none">
+            <div class="winner-avatar" style="background-color: ${version_config.get('background_color','#F9EDDF')}">
+                <div class="profile_bg"></div>
+                <img src="${STATIC_URL}avatars/default.png" alt=".." class="avatar">
+                % if award.take_in_scene:
+                <img src="${STATIC_URL}images/refresh.png" class="redraw">
+                % endif
+            </div>
+            <p class="rtx-name" style="margin-top: -10%; color: ${version_config.get('p_color', '#000')}">XX</p>
+            <p class="rtx-chinese-name" style="color: ${version_config.get('p_color', '#000')}">XX</p>
+        </div>
+        % endfor
+    </div>
+</div>
+<div class="modal-button" style="bottom: ${version_config.get('winner_button', -210)}px">
+    <button class="btn btn-insionse btn-modal" id="play-button" style="">
+        <img src="${STATIC_URL}images/bg${version}/start.png">
+    </button>
+    % if award.ignore_animation:
+    <button class="btn btn-inverse btn-modal operate-button" id="multiWinnersButton" style="display: none;">
+        <img src="${STATIC_URL}images/bg${version}/stop.png" id="stop-btn-bg">
+    </button>
+    % else:
+    <button class="btn btn-inverse btn-modal" id="stopButton" style="display: none;"><p>抽一个</p></button>
+    <button class="btn btn-inverse btn-modal" id="nextButton" style="display: none;"><p>下一个</p></button>
+    <button class="btn btn-inverse btn-modal operate-button" id="allButton" style="display: none;"><span
+            class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+    % endif
+    <button class="btn btn-inverse btn-modal" id="comfirmButton" style="display: none;"><p>确认</p></button>
+    <p id="award-forbidden" style="font-family: ${version_config.get('font_family')}">该奖项已结束~</p>
+</div>
+% if last_award is not None:
+<div class="left-page" onclick="javascript:window.location='${SITE_URL}lottery/award/${last_award.id}'">
+    <a><img src="${STATIC_URL}images/left-icon.png"></a>
+</div>
+% endif
+
+<div class="right-page">
+    % if next_award is not None:
+    <div onclick="javascript:window.location='${SITE_URL}lottery/award/${next_award.id}'">
+        <a><img src="${STATIC_URL}images/right-icon.png"></a>
+    </div>
+    % endif
+    <!-- 现场输入奖品奖项，再来一次按钮-->
+    <button type="button" id="draw-again" class="btn btn-primary btn-lg">继续抽奖</button>
+</div>
+
+</%block>
+
+<%block name="script">
+<script src="${STATIC_URL}js/preloadjs-0.6.2.min.js"></script>
+<script type="text/javascript" src="${SITE_URL}staff/static/all/${award.id}/"></script>
+<script type="text/javascript" src="${SITE_URL}staff/static_head_portrait/"></script>
+<script type="text/javascript" src="${SITE_URL}lottery/wheels/"></script>
+<script src="${STATIC_URL}js/award.js?v=${STATIC_VERSION}"></script>
+<script>
+    var need_pause_audio = '${version_config.get("need_pause_audio") or "on"}'
+</script>
+</%block>

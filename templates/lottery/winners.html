@@ -1,0 +1,27 @@
+<%inherit file="/base.html"/>
+
+<%block name="head">
+<title>${DEPARTMENT}年会</title>
+${parent.head()}
+<link href="${STATIC_URL}css/winners.css?v=${STATIC_VERSION}" rel="stylesheet">
+</%block>
+
+<%block name="content">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h6>中奖者名单</h6>
+    </div>
+    <div class="panel-body">
+        <a class="btn btn-inverse" href="${SITE_URL}lottery/winners/download/">导出excel</a>
+        <hr/>
+        <div id="winners-grid"></div>
+    </div>
+    <div class="panel-footer">
+    </div>
+</div>
+</%block>
+
+<%block name="script">
+<script src="${STATIC_URL}js/base.js?v=${STATIC_VERSION}"></script>
+<script src="${STATIC_URL}js/winners.js?v=${STATIC_VERSION}"></script>
+</%block>

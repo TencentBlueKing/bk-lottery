@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%block name='head'>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+            <title>${APP_CODE}</title>
+            <meta name="description" content=""/>
+            <meta name="author" content=""/>
+            <!-- bootstrap css -->
+            <link href="${STATIC_URL}bootstrap/bootstrap.min.css" rel="stylesheet">
+            <!-- kendoUI css -->
+            <link href="${STATIC_URL}kendo/kendo.common.min.css" rel="stylesheet">
+            <link href="${STATIC_URL}kendo/kendo.flat.min.css" rel="stylesheet">
+            <!-- jquery ui css-->
+            <link href="${STATIC_URL}jquery/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+            <!-- flat-ui     -->
+            <link href="${STATIC_URL}flatui/css/flat-ui.min.css" rel="stylesheet">
+
+            <link href="${STATIC_URL}css/base.css?v=${STATIC_VERSION}" rel="stylesheet">
+
+            <!-- toastr -->
+            <link href="${STATIC_URL}toastr/toastr.min.css" rel="stylesheet">
+            <!-- swiper_bundle -->
+            <link href="${STATIC_URL}swiper_bundle/swiper-bundle.min.css" rel="stylesheet">
+
+            <!-- jquery js  -->
+            <script src="${STATIC_URL}jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
+            <script src="${STATIC_URL}jquery/jquery.json-2.3.min.js"></script>
+            <script type="text/javascript" src="${STATIC_URL}js/csrftoken.js?v=${STATIC_VERSION}"></script>
+            <!-- bootstrap js  -->
+            <script src="${STATIC_URL}bootstrap/bootstrap.min.js" type="text/javascript"></script>
+            <!-- kendo js  -->
+            <script src="${STATIC_URL}kendo/kendo.all.min.js"></script>
+            <!-- jquery ui js-->
+            <script src="${STATIC_URL}jquery/jquery-ui-1.8.20.custom.min.js"></script>
+
+            <!-- toastr -->
+            <script src="${STATIC_URL}toastr/toastr.min.js"></script>
+            <script src="${STATIC_URL}jquery/jquery.cookie.js"></script>
+
+            <!-- swiper_bundle -->
+            <script src="${STATIC_URL}swiper_bundle/swiper-bundle.min.js"></script>
+
+            <!-- 这个是全局配置，如果需要在js中使用app_code和site_url,则这个javascript片段一定要保留 -->
+            <script type="text/javascript">
+                var app_code = "${APP_CODE}";           // 在蓝鲸系统里面注册的"应用编码"
+                var site_url = "${SITE_URL}";           // app的url前缀, 在ajax调用的时候，应该加上该前缀
+                var ceph_static_url = "${CEPH_STATIC_URL}";   // ceph静态文件根路径
+                var static_url = "${STATIC_URL}"
+                toastr.options.fadeOut = 2500;
+            </script>
+
+            <script type="text/javascript" src="${STATIC_URL}flatui/js/flat-ui.min.js"></script>
+
+
+
+        </%block>
+    </head>
+
+    <body>
+        <%block name="navbar">
+        <div class="modal fade" id="rtxImportModal" tabindex="-1" role="dialog" aria-labelledby="rtxImportModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">导入抽奖人员</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input name="excel" id="rtx-file" type="file" />
+                    </div>
+                    <div class="modal-footer">
+                        <a href="${SITE_URL}staff/download/?types=json" style="float: left">JSON模板下载</a>
+                        <a href="${SITE_URL}staff/download/?types=xlsx" style="float: left; margin-left: 20px">Excel模板下载</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="file-submit">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--顶部导航 Start-->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <span class="sr-only">Toggle navigation</span>
+                </button>
+                <a class="navbar-brand" href="${SITE_URL}">${DEPARTMENT}</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-01">
+                <%
+                    home = winners = ''
+                    relative_path = APP_PATH
+                    if relative_path == SITE_URL:
+                        home = 'active'
+                    elif relative_path.startswith(SITE_URL + 'lottery/winners/'):
+                        winners = 'active'
+                %>
+                <ul class="nav navbar-nav">
+                    <li class="${home}"><a href="${SITE_URL}">首页</a></li>
+                    <li><a href="${SITE_URL}admin/">管理页面</a></li>
+                    <li><a href="${SITE_URL}admin/lottery/award/add/?next=${SITE_URL}">添加奖项</a></li>
+                    <li class="${winners}"><a href="${SITE_URL}lottery/winners/">中奖者名单</a></li>
+                    <li id="import-rtx-button"><a href="#">导入抽奖人员</a></li>
+                    <li class="${winners}"><a href="${SITE_URL}guide" target="_blank">帮助</a></li>
+                </ul>
+##                 <div class=""></div>
+            </div><!-- /.navbar-collapse -->
+        </nav><!-- /navbar -->
+        <!--顶部导航 End-->
+        </%block>
+
+        <!-- 固定宽度居中 start -->
+        <div class="container">
+            <%block name='content'></%block>
+        </div>
+        <!-- 固定宽度表单居中 end -->
+
+        <!-- kendo表格content start -->
+        <%block name='script'>
+            <script src="${STATIC_URL}js/base.js?v=${STATIC_VERSION}"></script>
+        </%block>
+        <!-- kendo表格content end-->
+    </body>
+</html>
