@@ -16,7 +16,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -34,17 +33,26 @@ class Migration(migrations.Migration):
                 ('winRate2', models.IntegerField(default=0, verbose_name='\u540d\u53552\u4e2d\u5956\u4eba\u6570')),
                 ('times', models.IntegerField(default=1, verbose_name='\u62bd\u5956\u6b21\u6570')),
                 ('prize', models.CharField(max_length=64, verbose_name='\u5956\u54c1')),
-                ('status', models.IntegerField(choices=[(0, '\u672a\u6fc0\u6d3b'), (1, '\u5df2\u6fc0\u6d3b'), (2, '\u5df2\u7ed3\u675f')], default=1, verbose_name='\u72b6\u6001')),
+                ('status', models.IntegerField(
+                    choices=[(0, '\u672a\u6fc0\u6d3b'), (1, '\u5df2\u6fc0\u6d3b'), (2, '\u5df2\u7ed3\u675f')],
+                    default=1, verbose_name='\u72b6\u6001')),
                 ('sequence', models.IntegerField(default=0, verbose_name='\u987a\u5e8f')),
                 ('picture', models.ImageField(upload_to=b'award', verbose_name='\u5956\u54c1\u56fe\u7247')),
-                ('compressed_picture', models.ImageField(blank=True, null=True, upload_to=b'compressed_award', verbose_name='\u538b\u7f29\u56fe\u7247')),
+                ('compressed_picture', models.ImageField(blank=True, null=True, upload_to=b'compressed_award',
+                                                         verbose_name='\u538b\u7f29\u56fe\u7247')),
                 ('compressed_image', models.TextField(blank=True, null=True)),
                 ('image', models.TextField(blank=True, null=True)),
-                ('needMessage', models.BooleanField(default=False, verbose_name='\u662f\u5426\u9700\u8981\u77ed\u4fe1\u8fdb\u884c\u901a\u77e5')),
-                ('needInput', models.BooleanField(default=False, verbose_name='\u662f\u5426\u73b0\u573a\u8f93\u5165\u5956\u54c1')),
-                ('ignoreAnimation', models.BooleanField(default=True, verbose_name='\u662f\u5426\u8df3\u8fc7\u62bd\u5956\u52a8\u753b')),
-                ('everyoneCanDraw', models.BooleanField(default=False, verbose_name='\u662f\u5426\u6240\u6709\u4eba\u90fd\u53ef\u4ee5\u62bd\u5956')),
-                ('takeInScene', models.BooleanField(default=False, verbose_name='\u662f\u5426\u73b0\u573a\u9886\u5956')),
+                ('needMessage', models.BooleanField(default=False,
+                                                    verbose_name='\u662f\u5426\u9700\u8981\u77ed\u4fe1\u8fdb\u884c\u901a\u77e5')),
+                ('needInput',
+                 models.BooleanField(default=False, verbose_name='\u662f\u5426\u73b0\u573a\u8f93\u5165\u5956\u54c1')),
+                ('ignoreAnimation',
+                 models.BooleanField(default=True, verbose_name='\u662f\u5426\u8df3\u8fc7\u62bd\u5956\u52a8\u753b')),
+                ('everyoneCanDraw', models.BooleanField(default=False,
+                                                        verbose_name='\u662f\u5426\u6240\u6709\u4eba\u90fd\u53ef\u4ee5\u62bd\u5956')),
+                (
+                    'takeInScene',
+                    models.BooleanField(default=False, verbose_name='\u662f\u5426\u73b0\u573a\u9886\u5956')),
             ],
             options={
                 'verbose_name': '\u5956\u9879',
@@ -55,8 +63,10 @@ class Migration(migrations.Migration):
             name='Exclusion',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('award', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lottery.Award', verbose_name='\u5956\u9879')),
-                ('staff', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='staff.Staff', verbose_name='\u4e2d\u5956\u8005\u540d\u79f0')),
+                ('award', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lottery.Award',
+                                            verbose_name='\u5956\u9879')),
+                ('staff', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='staff.Staff',
+                                            verbose_name='\u4e2d\u5956\u8005\u540d\u79f0')),
             ],
             options={
                 'verbose_name': '\u6392\u9664\u540d\u5355',
@@ -69,7 +79,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=64, verbose_name='\u62bd\u5956\u8ba1\u5212\u540d\u79f0')),
                 ('description', models.CharField(max_length=1024, verbose_name='\u62bd\u5956\u8ba1\u5212\u63cf\u8ff0')),
-                ('status', models.IntegerField(choices=[(0, '\u672a\u6fc0\u6d3b'), (1, '\u5df2\u6fc0\u6d3b')], default=0, verbose_name='\u72b6\u6001')),
+                ('status',
+                 models.IntegerField(choices=[(0, '\u672a\u6fc0\u6d3b'), (1, '\u5df2\u6fc0\u6d3b')], default=0,
+                                     verbose_name='\u72b6\u6001')),
             ],
             options={
                 'verbose_name': '\u62bd\u5956\u8ba1\u5212',
@@ -92,8 +104,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('remark', models.CharField(blank=True, max_length=256, null=True, verbose_name='\u5907\u6ce8')),
-                ('award', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lottery.Award', verbose_name='\u5956\u9879')),
-                ('staff', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='staff.Staff', verbose_name='\u4e2d\u5956\u8005\u540d\u79f0')),
+                ('award', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lottery.Award',
+                                            verbose_name='\u5956\u9879')),
+                ('staff', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='staff.Staff',
+                                            verbose_name='\u4e2d\u5956\u8005\u540d\u79f0')),
             ],
             options={
                 'verbose_name': '\u4e2d\u5956\u4eba\u5458',
@@ -103,16 +117,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='award',
             name='plan',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lottery.Plan', verbose_name='\u62bd\u5956\u8ba1\u5212'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lottery.Plan',
+                                    verbose_name='\u62bd\u5956\u8ba1\u5212'),
         ),
         migrations.AddField(
             model_name='award',
             name='staffList',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='staff_list', to='staff.StaffList', verbose_name='\u5173\u8054\u540d\u53551'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='staff_list',
+                                    to='staff.StaffList', verbose_name='\u5173\u8054\u540d\u53551'),
         ),
         migrations.AddField(
             model_name='award',
             name='staffList2',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='staff_list_2', to='staff.StaffList', verbose_name='\u5173\u8054\u540d\u53552'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='staff_list_2',
+                                    to='staff.StaffList', verbose_name='\u5173\u8054\u540d\u53552'),
         ),
     ]
